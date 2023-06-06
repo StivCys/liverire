@@ -21,7 +21,7 @@
                     </x-nav-link>
                 </li>
                 <li>
-                    <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                    <x-nav-link href="{{ route('usuarios.index') }}" :active="request()->routeIs('usuarios.index')">
                         <span class='flex items-center space-x-2   hover:bg-gray-500 hover:bg-opacity-10 hover:text-blue-600 text-gray-700 py-1.5 px-4 rounded cursor-pointer'>
                             <i class="fa fa-user px-2"></i>
                             Usuarios
@@ -40,6 +40,9 @@
         @elseif($componente=='livewire.app.cadastros.usuarios.lista')
             @livewire('app.cadastros.components.menu-opcoes')
             @livewire('app.cadastros.usuarios.lista',['dados'=>$dados])
+        @elseif($componente=='livewire.app.cadastros.usuarios.show')
+            @livewire('app.cadastros.components.menu-opcoes')
+            @livewire('app.cadastros.usuarios.show',['dados'=>$dados])
         @endif
     </div>
 </div>

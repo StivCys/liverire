@@ -12,6 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('gerenciar usuarios');
         $users=User::all();
         
         return view('livewire.app.cadastros.cadastros')->with(['componente'=>'livewire.app.cadastros.usuarios.lista','dados'=>$users]);

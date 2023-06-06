@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?PHP
+// session_start();
+// echo"<pre>";
+// print_r($_SESSION);
+// echo"</pre>";
+?>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">

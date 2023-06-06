@@ -30,5 +30,5 @@ Route::middleware([
     })->name('dashboard');
     Route::get('/cadastros','CadastrosController@index')->name('cadastros');
     Route::resource('/produtos',ProdutosController::class);
-    Route::resource('/users',UserController::class);
+    Route::resource('/usuarios','UserController');
 });
