@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produtos;
+use App\Models\Permissions;
 use Illuminate\Http\Request;
 
-class ProdutosController extends Controller
+class PermissionsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // return view('livewire.app.cadastros.produtos.lista');
-        $produtos= Produtos::paginate(5)->toArray();
-        // dd($produtos);
-        return view('livewire.app.cadastros.cadastros')->with(['componente'=>'livewire.app.cadastros.produtos.lista','dados'=>$produtos]);
+        //
     }
 
     /**
@@ -37,7 +34,7 @@ class ProdutosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Produtos $produtos)
+    public function show(Permissions $permissions)
     {
         //
     }
@@ -45,7 +42,7 @@ class ProdutosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Produtos $produtos)
+    public function edit(Permissions $permissions)
     {
         //
     }
@@ -53,7 +50,7 @@ class ProdutosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Produtos $produtos)
+    public function update(Request $request, Permissions $permissions)
     {
         //
     }
@@ -61,7 +58,7 @@ class ProdutosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Produtos $produtos)
+    public function destroy(Permissions $permissions)
     {
         //
     }

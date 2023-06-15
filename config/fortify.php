@@ -46,7 +46,8 @@ return [
     |
     */
 
-    'username' => 'email',
+    // 'username' => 'email',
+    'username' => 'name',//--resolvi usar o nome para logar e não o email
 
     'email' => 'email',
 

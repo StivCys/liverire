@@ -61,7 +61,7 @@ return [
         // Features::termsAndPrivacyPolicy(),
         // Features::profilePhotos(),
         // Features::api(),
-        Features::teams(['invitations' => true]),
+        // Features::teams(['invitations' => true]),//--resolvi não usar a opção teams
         Features::accountDeletion(),
     ],
 

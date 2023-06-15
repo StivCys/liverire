@@ -3,6 +3,7 @@
 use App\Http\Controllers;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,6 @@ Route::middleware([
     })->name('dashboard');
     Route::get('/cadastros','CadastrosController@index')->name('cadastros');
     Route::resource('/produtos',ProdutosController::class);
-    Route::resource('/usuarios','UserController');
+    Route::resource('/user','UserController');
+    Route::resource('/roles','RolesController');
 });
