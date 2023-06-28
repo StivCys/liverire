@@ -50,6 +50,10 @@
             @livewire('app.cadastros.components.menu-opcoes',['dados'=>$dados])
             @livewire('app.cadastros.produtos.lista',['dados'=>$dados])
 
+        @elseif($componente=='livewire.app.cadastros.produtos.edit-create-form')
+            @livewire('app.cadastros.components.menu-opcoes',['dados'=>$dados])
+            @livewire('app.cadastros.produtos.edit-create-form',['dados'=>$dados])
+
         @elseif($componente=='livewire.app.cadastros.usuarios.show')
             {{-- @livewire('app.cadastros.components.menu-opcoes',['dados'=>$dados]) --}}
             @livewire('app.cadastros.usuarios.show',['dados'=>$dados])

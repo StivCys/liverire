@@ -6,15 +6,25 @@
         <div class="flex items-center">
             <div class="flex items-center ml-3">
                 <button title="Reload" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                    </svg>
+                    <i class='fa fa-refresh'></i>
                 </button>
             </div>
             <span class="bg-gray-300 h-6 w-[.5px] mx-3"></span>
+
+            @if(isset($dados['route']))
+                <div class="flex items-center ml-3">
+                    <a href={{route($dados['route'])}}>
+                        <button title="Novo" class="text-gray-700 px-2 py-1 border bg-lime-400 border-gray-300 rounded-lg shadow hover:bg-lime-500 transition duration-100">
+                                <i class="fa fa-plus"></i>&nbsp;Novo
+                        </button>
+                    </a>
+                </div>
+                <span class="bg-gray-300 h-6 w-[.5px] mx-3"></span>
+            @endif
             
         </div>
     </div>
+    @if(isset($dados['from']))
     <div class="px-2 flex items-center space-x-4">
         <span class="text-sm text-gray-500">Mostrando {{ $dados['from'] + (count($dados['data'])-1) }} de {{ $dados['total']}} resultados, pagina {{$dados['current_page']}} de {{ $dados['last_page']}} paginas</span>
         <div class="flex items-center space-x-5">
@@ -41,4 +51,5 @@
             </a>
         </div>
     </div>
+    @endif
 </div>

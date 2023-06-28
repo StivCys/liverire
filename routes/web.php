@@ -33,4 +33,5 @@ Route::middleware([
     Route::resource('/produtos',ProdutosController::class);
     Route::resource('/user','UserController');
     Route::resource('/roles','RolesController');
+    Route::resource('/clientes','ClientesController');
 });

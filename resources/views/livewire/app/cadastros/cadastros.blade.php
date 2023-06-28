@@ -1,3 +1,6 @@
+@section('title')
+    {{ $dados['title'] ?? ''}}
+@endsection
 
 <x-app-layout>
     <x-slot name="header">
