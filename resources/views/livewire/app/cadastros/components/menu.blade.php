@@ -11,14 +11,16 @@
         </div> --}}
         <div class="px-2 pt-4 pb-8 border-r border-gray-300">
             <ul class="space-y-2">
-                <li>
-                    <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
-                        <span class='spam_menu flex items-center space-x-2  bg-gray-500 bg-opacity-30 hover:bg-gray-500 hover:bg-opacity-10 hover:text-blue-600 text-gray-700 py-1.5 px-4 rounded cursor-pointer'>
-                            <i class="fa fa-user px-2"></i>
-                            Usuarios
-                        </span>
-                    </x-nav-link>
-                </li>
+                @can('read user')
+                    <li>
+                        <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
+                            <span class='spam_menu flex items-center space-x-2  bg-gray-500 bg-opacity-30 hover:bg-gray-500 hover:bg-opacity-10 hover:text-blue-600 text-gray-700 py-1.5 px-4 rounded cursor-pointer'>
+                                <i class="fa fa-user px-2"></i>
+                                Usuarios
+                            </span>
+                        </x-nav-link>
+                    </li>
+                @endcan
                 <li>
                     <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
                         <span class="spam_menu flex items-center space-x-2  bg-gray-500 bg-opacity-30 hover:bg-gray-500 hover:bg-opacity-10 hover:text-blue-600 text-gray-700 justify-between py-1.5 px-4 rounded cursor-pointer">

@@ -12,6 +12,8 @@ class ProdutosController extends Controller
      */
     public function index()
     {
+        // $this->authorize('Pedidos listar pedidos');
+        
         // return view('livewire.app.cadastros.produtos.lista');
         $produtos= Produtos::paginate(5)->toArray();
         // dd($produtos);

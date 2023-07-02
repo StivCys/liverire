@@ -23,6 +23,7 @@ class UsersPolicy
     public function viewAny(User $user): bool
     {
         //
+        dd($user);
         return $user->role;
     }
 
@@ -32,6 +33,8 @@ class UsersPolicy
     public function view(User $user, User $model): bool
     {
         //
+        dd($user);
+        return $user->role;
     }
 
     /**

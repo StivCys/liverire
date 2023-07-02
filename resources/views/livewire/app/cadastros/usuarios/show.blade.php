@@ -57,7 +57,7 @@
             <!-- component -->
         <!-- This is an example component -->
         <div class="mb-4 w-80 float-left p-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Permissões</label>
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Papeis do Usuario (Perfil)</label>
 
             <style>
                 .x-cloak {
@@ -65,10 +65,10 @@
                 }
             </style>
             <select class='x-cloak ' id="my_select" multiple >
-                @foreach($dados['permissoes_existentes'] as $key=>$val)
+                @foreach($dados['papeis_existentes'] as $key=>$val)
                     <?php
                     $selected='';
-                    if(in_array($val['id'],$dados['permissoes_do_usuario'])){
+                    if(in_array($val['id'],$dados['papeis_do_usuario'])){
                         $selected=" selected ";
                     }
                     ?>

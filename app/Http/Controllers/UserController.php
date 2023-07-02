@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 class UserController extends Controller
 {
     /**
@@ -18,8 +21,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        
         $this->authorize('read user');
-        $users=User::select('users.id as id' ,'users.email as email', 'users.name as nome','roles.name as permissao')
+        $users=User::select('users.id as id' ,'users.email as email', 'users.name as nome','roles.name as papel_usuario')
                     ->leftJoin('model_has_roles','id','=','model_id')
                     ->leftJoin('roles','roles.id','=','role_id')
                     ->paginate(5)->toArray();
@@ -35,7 +39,6 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('create user');
         
         
     }
@@ -47,7 +50,6 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('create user');
     }
 
     /**
@@ -57,11 +59,10 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('read user');
         
         //--LISTAR DADOS DO USUARIO
         $aUser['user']=array();
-        $cUser=User::select('users.id as id' ,'users.email as email', 'users.name as nome',DB::raw('group_concat(roles.id) as permissoes_do_usuario'))
+        $cUser=User::select('users.id as id' ,'users.email as email', 'users.name as nome',DB::raw('group_concat(roles.id) as papeis_do_usuario'))
                     ->leftJoin('model_has_roles','id','=','model_id')
                     ->leftJoin('roles','roles.id','=','role_id')
                     ->where('users.id','=',$id)
@@ -72,14 +73,15 @@ class UserController extends Controller
         
         //--ajustando o retorno
         $aUser=array_pop($cUser);
+        // dd($aUser);
 
         //--LISTAR PAPEIS DISPONIVEIS                    
-        $aUser['permissoes_existentes']=array();
+        $aUser['papeis_existentes']=array();
         $roles=Roles::select('id','name')->get()->toArray();
         foreach($roles as $key){
-            array_push($aUser['permissoes_existentes'],$key);
+            array_push($aUser['papeis_existentes'],$key);
         }
-        $aUser['permissoes_do_usuario']=explode(',',$aUser['permissoes_do_usuario']);
+        $aUser['papeis_do_usuario']=explode(',',$aUser['papeis_do_usuario']);
         // dd($aUser);
         return view('livewire.app.cadastros.cadastros')->with(['componente'=>'livewire.app.cadastros.usuarios.show','dados'=>$aUser]);
         
@@ -93,7 +95,6 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('update user');
     }
 
     /**
@@ -103,7 +104,6 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('update user');
         if($request->input('_token')!='' && $request->input('id')!=''){
             $regras=[
                 'name'=>'required|min:2|max:30',
@@ -149,27 +149,36 @@ class UserController extends Controller
                 $request->merge(
                     [
                         'password' => $senha,
-                        ]
+                    ]
                 );
             }
 
+            //--ECONTRA O USUARIO
             $usuario =$usuarios->find($request->input('id'));
+
+            $roles_atribuidos = $request->input('role_id');
+            $list=array();
+            if($roles_atribuidos[0]!='' && $roles_atribuidos[0]!=null){
+                $roles_atribuidos = explode(',',$roles_atribuidos[0]);
+                // dd($roles_atribuidos);
+                foreach( $roles_atribuidos as $key=>$val){
+                   array_push($list,Role::findById($val,'web')->getAttribute('name'));
+                }
             
+            }
+
+            //--ATUALIZA AS ROLES DO USUARIO
+            $usuario->syncRoles($list);
             
-            if(!$usuario->update($request->except('_token','_method',$except_pasword))){
+            if(!$usuario->update($request->except('_token','_method','role_id',$except_pasword))){
                 //--mensagem de erro
                 
             }
         }
-        
-        // $usuarios=User::find($request->input('id'));
-        // // dd($usuarios);
-        // return view('livewire.app.cadastros.cadastros')->with(['componente'=>'livewire.app.cadastros.usuarios.show','dados'=>$usuarios]);
-        // // return redirect()->route('usuarios.show',['produto'=>$usuarios->id]);
 
         //--LISTAR DADOS DO USUARIO
         $aUser['user']=array();
-        $cUser=User::select('users.id as id' ,'users.email as email', 'users.name as nome',DB::raw('group_concat(roles.id) as permissoes_do_usuario'))
+        $cUser=User::select('users.id as id' ,'users.email as email', 'users.name as nome',DB::raw('group_concat(roles.id) as papeis_do_usuario'))
                     ->leftJoin('model_has_roles','id','=','model_id')
                     ->leftJoin('roles','roles.id','=','role_id')
                     ->where('users.id','=',$request->input('id'))
@@ -182,12 +191,12 @@ class UserController extends Controller
         $aUser=array_pop($cUser);
 
         //--LISTAR PAPEIS DISPONIVEIS                    
-        $aUser['permissoes_existentes']=array();
+        $aUser['papeis_existentes']=array();
         $roles=Roles::select('id','name')->get()->toArray();
         foreach($roles as $key){
-            array_push($aUser['permissoes_existentes'],$key);
+            array_push($aUser['papeis_existentes'],$key);
         }
-        $aUser['permissoes_do_usuario']=explode(',',$aUser['permissoes_do_usuario']);
+        $aUser['papeis_do_usuario']=explode(',',$aUser['papeis_do_usuario']);
         // dd($aUser);
         return view('livewire.app.cadastros.cadastros')->with(['componente'=>'livewire.app.cadastros.usuarios.show','dados'=>$aUser]);
 
@@ -200,6 +209,5 @@ class UserController extends Controller
     {
         //
         $user = Auth::user();
-        $user->can('delete user');
     }
 }
